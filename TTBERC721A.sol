@@ -26,13 +26,12 @@ contract TTBERC721A is Ownable, ERC721A, PaymentSplitter {
 
     Step public sellingStep;
 
-    uint private constant MAX_SUPPLY = 7777;
-    uint private constant MAX_WHITELIST = 2777;
-    uint private constant MAX_PUBLIC = 4900;
-    uint private constant MAX_GIFT = 100;
+    uint private constant MAX_SUPPLY = 8888;
+    uint private constant MAX_WHITELIST = 888;
+    uint private constant MAX_PUBLIC = 4950;
+    uint private constant MAX_GIFT = 50;
 
-    uint public wlSalePrice = 0.0025 ether;
-    uint public publicSalePrice = 0.003 ether;
+    uint public constant PRICE = 0.35 ether;
 
     bytes32 public merkleRoot;
 
@@ -55,7 +54,7 @@ contract TTBERC721A is Ownable, ERC721A, PaymentSplitter {
     }
 
     function whitelistMint(address _account, uint _quantity, bytes32[] calldata _proof) external payable callerIsUser {
-        uint price = wlSalePrice;
+        uint price = PRICE;
         require(price != 0, "Price is 0");
         require(currentTime() >= saleStartTime, "Whitelist Sale has not started yet");
         require(currentTime() < saleStartTime + 300 minutes, "Whitelist Sale is finished");
@@ -69,7 +68,7 @@ contract TTBERC721A is Ownable, ERC721A, PaymentSplitter {
     }
 
     function publicSaleMint(address _account, uint _quantity) external payable callerIsUser {
-        uint price = publicSalePrice;
+        uint price = PRICE;
         require(price != 0, "Price is 0");
         require(sellingStep == Step.PublicSale, "Public sale is not activated");
         require(totalSupply() + _quantity <= MAX_WHITELIST + MAX_PUBLIC, "Max supply exceeded");
